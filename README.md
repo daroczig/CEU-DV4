@@ -33,8 +33,8 @@ For Pass:
 * You need to create a Shiny application with `shinydashboard` layout using a sidebar menu
 * Write at least one helper function and put into the `global.R` file to make it accessible for both `ui.R` and `server.R`
 * Add at least 3 input elements using at least 2 different methods (eg dropdown, slider, checkbox)
-* Add at least 4 different UI elements (eg text, table, map, UI, info and valueboxes)
-* Use at least 3 menu items
+* Add at least 3 different UI elements (eg text, table, map, UI, info and valueboxes)
+* Use at least 2 menu items
 * Use `reactive` values
 * The change of the input elements have to change the UI elements showed to the user
 * Deploy the app into shinyapps.io, upload the code into Moodle with a reference to your shinyapps.io application
@@ -42,6 +42,8 @@ For Pass:
 For Grade:
 
 * Implement the application described in the above steps
+* Add at least 5 different UI elements, including one from htmlwidgets.org
+* Use at least 3 menu items
 * Add Google Analytics tracking to your application
 * Deploy the app via shinyproxy (covered on the second day of the course)
 
