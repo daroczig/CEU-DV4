@@ -15,3 +15,11 @@ Please find in the `syllabus` folder of this repository.
 ## Schedule
 
 2 x 300 mins on April 14 and May 25, 2020.
+
+### Week 1
+
+Introduction to Shiny by Mihaly Orsos: https://github.com/misrori/CEU-Dataviz-3
+
+### Week 2
+
+To be upoaded.
