@@ -23,3 +23,28 @@ Introduction to Shiny by Mihaly Orsos: https://github.com/misrori/CEU-Dataviz-3
 ### Week 2
 
 To be upoaded.
+
+## Home Assignment
+
+For Pass:
+
+* You need to create a shiny application with shinydashboard layout with sidebar menu.
+* Write functions, put it into an other file, and source it into the app.
+* Add at least 4 different ui element and , and 3 menuite.
+* Use reactive values.
+* You have to render on the server side: text, data.table, map, ui, info and valuebox.
+* Put the rendered items into the ui, to show the user.
+* The change of the ui elements have to change the object showed to the user.
+* Upload the code into moodle, and deploy the app into shinyapps.io.
+
+For Grade:
+
+* Implement the application described in the above steps
+* Add Google Analytics tracking to your application
+* Deploy the app via shinyproxy (covered on the second day of the course)
+
+Some ideas for data source:
+
+* `nycflights13` package
+* https://github.com/rfordatascience/tidytuesday/
+* https://www.kaggle.com/datasets
