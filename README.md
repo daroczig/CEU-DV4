@@ -26,16 +26,18 @@ To be upoaded.
 
 ## Home Assignment
 
+Create and deploy a Shiny application as described below. You can use any dataset you like. If you have no ideas on what data source(s) to use, check the below ideas. In any question, reach out on Slack or open a GitHub ticket.
+
 For Pass:
 
-* You need to create a shiny application with shinydashboard layout with sidebar menu.
-* Write functions, put it into an other file, and source it into the app.
-* Add at least 4 different ui element and , and 3 menuite.
-* Use reactive values.
-* You have to render on the server side: text, data.table, map, ui, info and valuebox.
-* Put the rendered items into the ui, to show the user.
-* The change of the ui elements have to change the object showed to the user.
-* Upload the code into moodle, and deploy the app into shinyapps.io.
+* You need to create a Shiny application with `shinydashboard` layout using a sidebar menu
+* Write at least one helper function and put into the `global.R` file to make it accessible for both `ui.R` and `server.R`
+* Add at least 3 input elements using at least 2 different methods (eg dropdown, slider, checkbox)
+* Add at least 4 different UI elements (eg text, table, map, UI, info and valueboxes)
+* Use at least 3 menu items
+* Use `reactive` values
+* The change of the input elements have to change the UI elements showed to the user
+* Deploy the app into shinyapps.io, upload the code into Moodle with a reference to your shinyapps.io application
 
 For Grade:
 
