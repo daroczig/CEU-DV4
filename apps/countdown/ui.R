@@ -2,8 +2,16 @@ library(shiny)
 library(particlesjs)
 
 ui <- fluidPage(
+
+    tags$head(
+        tags$link(rel = "stylesheet", type = "text/css", href = "app.css")
+    ),
+
     particles(),
-    h1(uiOutput('title')),
-    h2(uiOutput('subtitle')),
-    p(uiOutput('countdown'))
+    div(
+        h1(uiOutput('title')),
+        h2(uiOutput('subtitle')),
+        h1(uiOutput('countdown')),
+        class = 'center')
+
 )
