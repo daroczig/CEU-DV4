@@ -10,6 +10,9 @@ server <- function(input, output) {
     output$subtitle <- renderText(subtitle)
     output$countdown <- renderText({
         invalidateLater(500)
-        as.character(round(as.period(schedule - Sys.time())))
+        color <- ifelse(schedule > Sys.time(), 'black', 'red')
+        as.character(span(
+            round(as.period(abs(schedule - Sys.time()))),
+            style = paste('color', color, sep = ':')))
     })
 }
