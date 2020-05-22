@@ -11,7 +11,9 @@ ui <- fluidPage(
     div(
         h1(uiOutput('title')),
         h2(uiOutput('subtitle')),
+        h3('starts in'),
         h1(tags$b(uiOutput('countdown'))),
+        h4(uiOutput('start')),
         class = 'center')
 
 )

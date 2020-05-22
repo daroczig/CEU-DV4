@@ -8,6 +8,9 @@ schedule <- as.POSIXct('2020-05-25 13:30:00')
 server <- function(input, output) {
     output$title <- renderText(title)
     output$subtitle <- renderText(subtitle)
+    output$start <- renderText({
+        paste('at', schedule, Sys.timezone())
+    })
     output$countdown <- renderText({
         invalidateLater(500)
         color <- ifelse(schedule > Sys.time(), 'black', 'red')
