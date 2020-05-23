@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyWidgets)
 library(lubridate)
 
 server <- function(input, output) {
@@ -22,16 +23,13 @@ server <- function(input, output) {
             style = paste('color', color, sep = ':')))
     })
 
-    settingsModal <- function() {
-        modalDialog(
+    observeEvent(input$settings_show, {
+        showModal(modalDialog(
             textInput("title", "Title", value = settings$title),
             textInput("subtitle", "Subtitle", value = settings$subtitle),
-            textInput("schedule", "Time", value = settings$schedule),
+            airDatepickerInput("schedule", "Time", value = settings$schedule, timepicker = TRUE),
             footer = tagList(actionButton('settings_update', 'Update'))
-        )
-    }
-    observeEvent(input$settings_show, {
-        showModal(settingsModal())
+        ))
     })
     observeEvent(input$settings_update, {
         settings$title <- input$title
