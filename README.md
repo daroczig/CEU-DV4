@@ -292,6 +292,34 @@ Further ideas to improve the app:
 
 Note, that Shiny Server has some limitations (eg scaling to multiple users, some headers removed by the Node.js wrapper) -- so you might consider either the Pro version, other RStudio products or eg the below-mentioned Shiny app manager daemon for using Shiny in production at scale.
 
+##### Shinyproxy.io
+
+0. Get familiar with Docker:
+
+    - ["Dockerizing R scripts"](https://github.com/daroczig/CEU-R-prod#dockerizing-r-scripts) at the "Data Engineering 4: Using R in Production" class
+    - [rOpenSci Docker tutorial](https://ropenscilabs.github.io/r-docker-tutorial)
+
+1. 💪 Install Docker
+
+    ```sh
+    ## get dependencies
+    sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+    ## import Docker's official GPG key
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    ## add the external, official Docker apt repo for most recent release
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    ## download list of available packages and install Docker
+    sudo apt update
+    sudo apt install -y docker-ce docker-ce-cli containerd.io
+    ```
+
+2. Test Docker
+
+    ```sh
+    sudo docker run --rm hello-world
+    sudo docker image rm hello-world
+    ```
+
 
 
 
