@@ -2,13 +2,22 @@ library(shiny)
 library(shinyWidgets)
 library(lubridate)
 
-server <- function(input, output) {
+server <- function(input, output, session) {
 
     settings <- reactiveValues(
         title = 'Data Visualization 3',
         subtitle = 'Data Visualization in Production with Shiny',
         schedule = as.POSIXct('2020-05-25 13:30:00')
     )
+
+    observe({
+        query <- parseQueryString(session$clientData$url_search)
+        for (v in c('title', 'subtitle', 'schedule')) {
+            if (!is.null(query[[v]])) {
+                settings$title <- query[[v]]
+            }
+        }
+    })
 
     output$title <- renderText(settings$title)
     output$subtitle <- renderText(settings$subtitle)
