@@ -416,6 +416,13 @@ Note, that Shiny Server has some limitations (eg scaling to multiple users, some
         }
         ```
 
+    3. Restart nginx
+
+        ```sh
+        sudo systemctl restart nginx
+        ```
+
+
 
 
 
