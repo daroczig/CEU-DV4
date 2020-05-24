@@ -19,17 +19,19 @@ server <- function(input, output, session) {
         }
     })
 
-    output$title <- renderText(settings$title)
-    output$subtitle <- renderText(settings$subtitle)
-    output$start <- renderText({
-        paste('at', settings$schedule, Sys.timezone())
-    })
-    output$countdown <- renderText({
+    output$countdown <- renderUI({
         invalidateLater(500)
         color <- ifelse(settings$schedule > Sys.time(), 'black', 'red')
-        as.character(span(
+        remaining <- span(
             round(as.period(abs(settings$schedule - Sys.time()))),
-            style = paste('color', color, sep = ':')))
+            style = paste('color', color, sep = ':'))
+        div(
+            h1(settings$title),
+            h2(settings$subtitle),
+            h3('starts in'),
+            h1(tags$b(remaining)),
+            h4(paste('at', settings$schedule, Sys.timezone())),
+            class = 'center')
     })
 
     observeEvent(input$settings_show, {
