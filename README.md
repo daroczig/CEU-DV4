@@ -22,9 +22,21 @@ Introduction to Shiny by Mihaly Orsos: https://github.com/misrori/CEU-Dataviz-3
 
 ### Week 2
 
-TODO Overview on the previous week's materials by Mihaly Orsos:
-- thanks Misi!
--
+Overview on the previous week's materials by Mihaly Orsos:
+
+* basics of `ui.R` and `server.R`
+* HTML tags
+* reactive functions
+* action button
+* `renderUI`
+* UI layouts
+  * basic UI elements
+  * Shiny themes
+  * `shinydashboard`
+* Password-protected applications
+* Google Analytics
+
+#### Countdown-timer app
 
 This week, we build a countdown timer app, similar to http://count-down-timer.tk
 
@@ -34,7 +46,7 @@ This week, we build a countdown timer app, similar to http://count-down-timer.tk
         - note `allowAdFeatures=FALSE`
         - note IP anonymization as per https://support.google.com/analytics/answer/2763052?hl=en
     - cookies
-    - using shinyapps.io in the background
+    - using shinyapps.io in the background, so let's check out the features at eg check on features of this countdown app at https://daroczig.shinyapps.io/countdown/?title=deadline&subtitle=for%20DV3&schedule=2020-06-14%2023:59:59
 
 1. App wireframe with a static UI:
 
