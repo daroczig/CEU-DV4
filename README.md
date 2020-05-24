@@ -255,8 +255,10 @@ Further ideas to improve the app:
 
         ## install as a binary when possible
         sudo apt-get install r-cran-dplyr r-cran-quantmod r-cran-xml r-cran-tidyr r-cran-igraph r-cran-lubridate r-cran-psych r-cran-broom r-cran-yaml r-cran-htmlwidgets r-cran-shiny
+
         ## install from CRAN when binary is not available
         sudo R -e "devtools::with_libpaths(new = '/usr/local/lib/R/site-library', install.packages(c('highcharter', 'shinyWidgets'), repos='https://cran.rstudio.com/'))"
+
         ## some R packages are not even on CRAN, so let's install from GitHub
         sudo Rscript -e "library(devtools);with_libpaths(new = '/usr/local/lib/R/site-library', install_github('dreamRs/particlesjs', upgrade_dependencies = FALSE))"
 
@@ -303,10 +305,13 @@ Note, that Shiny Server has some limitations (eg scaling to multiple users, some
     ```sh
     ## get dependencies
     sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+
     ## import Docker's official GPG key
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
     ## add the external, official Docker apt repo for most recent release
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
     ## download list of available packages and install Docker
     sudo apt update
     sudo apt install -y docker-ce docker-ce-cli containerd.io
