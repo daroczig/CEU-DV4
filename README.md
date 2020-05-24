@@ -290,7 +290,8 @@ Further ideas to improve the app:
 
 7. Add `ui.R` and `server.R` files (along with `global.R` and other stuff in the `www` folder) to directories created in `/home/ceu`
 
-##### Shinyproxy.io
+Note, that Shiny Server has some limitations (eg scaling to multiple users, some headers removed by the Node.js wrapper) -- so you might consider either the Pro version, other RStudio products or eg the below-mentioned Shiny app manager daemon for using Shiny in production at scale.
+
 
 
 
