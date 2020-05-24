@@ -241,6 +241,12 @@ This week, we build a countdown timer app, similar to http://count-down-timer.tk
     ```
     </details>
 
+Further ideas to improve the app:
+
+- get timezone from visitor's browser setting / locale
+- configure theme (colors, layout, background etc)
+- ads!!!
+
 
 
 
