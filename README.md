@@ -428,6 +428,7 @@ Note, that Shiny Server has some limitations (eg scaling to multiple users, some
 
 9. Visit your EC2 box's IP address at http://your.ip.address
 
+Remaining resources to be uploaded.
 
 
 
@@ -435,7 +436,7 @@ Note, that Shiny Server has some limitations (eg scaling to multiple users, some
 
 
 
-To be upoaded.
+
 
 ## Home Assignment
 
