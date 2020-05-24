@@ -22,6 +22,35 @@ Introduction to Shiny by Mihaly Orsos: https://github.com/misrori/CEU-Dataviz-3
 
 ### Week 2
 
+TODO Overview on the previous week's materials by Mihaly Orsos:
+- thanks Misi!
+-
+
+This week, we build a countdown timer app, similar to http://count-down-timer.tk
+
+0. Check the web application's sources in the Developer Tools panel of Google Chrome or Firefox (Ctrl+Shift+i or F12):
+
+    - Google Analytics
+        - note `allowAdFeatures=FALSE`
+        - note IP anonymization as per https://support.google.com/analytics/answer/2763052?hl=en
+    - cookies
+    - using shinyapps.io in the background
+
+1. App skeleton:
+
+    <details><summary>ui.R</summary>
+
+```r
+library(shiny)
+
+ui <- fluidPage(
+    h1('Data Visualization 3'),
+    h2('Data Visualization in Production with Shiny'),
+    h1('0H 0M 0S')
+)
+```
+    </details>
+
 To be upoaded.
 
 ## Home Assignment
