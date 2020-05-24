@@ -7,14 +7,15 @@ server <- function(input, output, session) {
     settings <- reactiveValues(
         title = 'Data Visualization 3',
         subtitle = 'Data Visualization in Production with Shiny',
-        schedule = as.POSIXct('2020-05-25 13:30:00')
+        schedule = '2020-05-25 13:30:00'
     )
 
     output$countdown <- renderUI({
         invalidateLater(500)
-        color <- ifelse(settings$schedule > Sys.time(), 'black', 'red')
+        schedule <- as.POSIXct(settings$schedule)
+        color <- ifelse(schedule > Sys.time(), 'black', 'red')
         remaining <- span(
-            round(as.period(abs(settings$schedule - Sys.time()))),
+            round(as.period(abs(schedule - Sys.time()))),
             style = paste('color', color, sep = ':'))
         div(
             h1(settings$title),
@@ -30,7 +31,7 @@ server <- function(input, output, session) {
         query <- parseQueryString(session$clientData$url_search)
         for (v in c('title', 'subtitle', 'schedule')) {
             if (!is.null(query[[v]])) {
-                settings$title <- query[[v]]
+                settings[[v]] <- query[[v]]
             }
         }
     })
@@ -40,14 +41,14 @@ server <- function(input, output, session) {
         showModal(modalDialog(
             textInput("title", "Title", value = settings$title),
             textInput("subtitle", "Subtitle", value = settings$subtitle),
-            airDatepickerInput("schedule", "Time", value = settings$schedule, timepicker = TRUE),
+            airDatepickerInput("schedule", "Time", value = as.POSIXct(settings$schedule), timepicker = TRUE),
             footer = tagList(actionButton('settings_update', 'Update'))
         ))
     })
     observeEvent(input$settings_update, {
         settings$title <- input$title
         settings$subtitle <- input$subtitle
-        settings$schedule <- as.POSIXct(input$schedule)
+        settings$schedule <- input$schedule
         removeModal()
     })
 
