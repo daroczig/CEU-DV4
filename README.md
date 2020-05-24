@@ -60,7 +60,11 @@ This week, we build a countdown timer app, similar to http://count-down-timer.tk
     ```
     </details>
 
-2. Move content generation to the backend: f0b53ee0da9a816a44448ab8f170c5ca7d46e2f2
+2. Move content generation to the backend: https://github.com/daroczig/CEU-DV3/commit/f0b53ee0da9a816a44448ab8f170c5ca7d46e2f2
+
+3. Add current time (to be later used as the baseline for the countdown timer): https://github.com/daroczig/CEU-DV3/compare/f0b53ee0da9a816a44448ab8f170c5ca7d46e2f2...5dd67247fdf3a53312737057273c31fb1dbe11a8
+
+
 
 3. Add current time (to be later used as the baseline for the countdown timer): f0b53ee0da9a816a44448ab8f170c5ca7d46e2f2...5dd67247fdf3a53312737057273c31fb1dbe11a8
 
