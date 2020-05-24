@@ -341,20 +341,20 @@ Note, that Shiny Server has some limitations (eg scaling to multiple users, some
         sudo systemctl restart docker
         ```
 
-4. Make sure Java is installed:
+4. 💪 Make sure Java is installed:
 
     ```sh
     sudo apt install -y openjdk-8-jdk-headless
     ```
 
-5. Install ShinyProxy
+5. 💪 Install ShinyProxy
 
     ```sh
     wget -O /tmp/shinyproxy.deb https://www.shinyproxy.io/downloads/shinyproxy_2.3.0_amd64.deb
     sudo dpkg -i /tmp/shinyproxy.deb
     ```
 
-6. Configure ShinyProxy at `/etc/shinyproxy/application.yml`
+6. 💪 Configure ShinyProxy at `/etc/shinyproxy/application.yml`
 
     ```sh
     proxy:
@@ -364,17 +364,20 @@ Note, that Shiny Server has some limitations (eg scaling to multiple users, some
       heartbeat-rate: 10000
       heartbeat-timeout: 60000
       port: 8080
-    docker:
+      docker:
         cert-path: /home/none
         url: http://localhost:2375
         port-range-start: 20000
-    specs:
+      specs:
       - id: 01_hello
         display-name: Hello Application
         description: Application which demonstrates the basics of a Shiny app
         container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
         container-image: openanalytics/shinyproxy-demo
         access-groups: [scientists, mathematicians]
+    logging:
+      file:
+        shinyproxy.log
     ```
 
     Optionally make that editable by the `ceu` user for easier access from RStudio for the time being:
@@ -383,19 +386,20 @@ Note, that Shiny Server has some limitations (eg scaling to multiple users, some
     sudo chown ceu:ceu /etc/shinyproxy/application.yml
     ```
 
-7. Restart ShinyProxy
+7. 💪 Restart ShinyProxy
 
     ```sh
     sudo systemctl restart shinyproxy
     ```
 
-8. Set up yet-another-proxy so that the apps can be accessed over the standard HTTP/80 port
+8. 💪 Set up yet-another-proxy so that the apps can be accessed over the standard HTTP/80 port
 
     1. Install `nginx`
 
         ```sh
         sudo apt install -y nginx
         ```
+
     2. Then we need to edit the main site's configuration at `/etc/nginx/sites-enabled/default`
 
         ```
@@ -421,6 +425,8 @@ Note, that Shiny Server has some limitations (eg scaling to multiple users, some
         ```sh
         sudo systemctl restart nginx
         ```
+
+9. Visit your EC2 box's IP address at http://your.ip.address
 
 
 
