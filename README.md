@@ -247,6 +247,50 @@ Further ideas to improve the app:
 - configure theme (colors, layout, background etc)
 - ads!!!
 
+#### Deploying Shiny applications
+
+```
+##### Shiny Server
+
+1. 💪 Install R packages as a system user:
+
+        ## install as a binary when possible
+        sudo apt-get install r-cran-dplyr r-cran-quantmod r-cran-xml r-cran-tidyr r-cran-igraph r-cran-lubridate r-cran-psych r-cran-broom r-cran-yaml r-cran-htmlwidgets r-cran-shiny
+        ## install from CRAN when binary is not available
+        sudo R -e "devtools::with_libpaths(new = '/usr/local/lib/R/site-library', install.packages(c('highcharter', 'shinyWidgets'), repos='https://cran.rstudio.com/'))"
+        ## some R packages are not even on CRAN, so let's install from GitHub
+        sudo Rscript -e "library(devtools);with_libpaths(new = '/usr/local/lib/R/site-library', install_github('dreamRs/particlesjs', upgrade_dependencies = FALSE))"
+
+2. 💪 Install Shiny Server from https://rstudio.com/products/shiny/download-server/ubuntu/:
+
+        sudo apt-get install gdebi-core
+        wget https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-1.5.13.944-amd64.deb
+        sudo gdebi shiny-server-1.5.13.944-amd64.deb
+
+3. 💪 Edit `site_dir` in `shiny-server.conf` to point to the `/home/ceu` folder via
+
+        sudo mcedit /etc/shiny-server/shiny-server.conf
+        sudo systemctl restart shiny-server
+
+4. Visit Shiny Server on port 3838 from your browser
+
+    ![](https://raw.githubusercontent.com/daroczig/CEU-R-prod/2018-2019/images/shiny-server.png)
+
+5a. 💪 Always keep logs -- set this in the Shiny Server config & restart service as per https://docs.rstudio.com/shiny-server/#logging-and-analytics:
+
+        preserve_logs true;
+
+5b. 💪 Redirect all logs to the same file by injecting an environment variable in `/etc/systemd/system/shiny-server.service` by adding this line below the other `Environment=` line:
+
+        Environment="SHINY_LOG_STDERR=1"
+
+6. To keep an eye on logs (test with making a typo in the app on purpose):
+
+        sudo tail -f /var/log/shiny-server.log
+
+7. Add `ui.R` and `server.R` files (along with `global.R` and other stuff in the `www` folder) to directories created in `/home/ceu`
+
+##### Shinyproxy.io
 
 
 
