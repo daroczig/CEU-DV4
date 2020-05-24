@@ -12,3 +12,10 @@
 .datepicker{
     z-index:1151 !important;
 }
+
+#settings_show {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    color: black;
+}
