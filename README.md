@@ -40,15 +40,15 @@ This week, we build a countdown timer app, similar to http://count-down-timer.tk
 
     <details><summary>ui.R</summary>
 
-```r
-library(shiny)
+    ```r
+    library(shiny)
 
-ui <- fluidPage(
-    h1('Data Visualization 3'),
-    h2('Data Visualization in Production with Shiny'),
-    h1('0H 0M 0S')
-)
-```
+    ui <- fluidPage(
+        h1('Data Visualization 3'),
+        h2('Data Visualization in Production with Shiny'),
+        h1('0H 0M 0S')
+    )
+    ```
     </details>
 
 To be upoaded.
