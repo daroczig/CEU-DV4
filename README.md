@@ -96,7 +96,6 @@ This week, we build a countdown timer app, similar to http://count-down-timer.tk
 
 
 
-3. Add current time (to be later used as the baseline for the countdown timer): f0b53ee0da9a816a44448ab8f170c5ca7d46e2f2...5dd67247fdf3a53312737057273c31fb1dbe11a8
 
 To be upoaded.
 
