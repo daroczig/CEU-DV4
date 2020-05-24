@@ -7,12 +7,13 @@ server <- function(input, output, session) {
     settings <- reactiveValues(
         title = 'Data Visualization 3',
         subtitle = 'Data Visualization in Production with Shiny',
-        schedule = '2020-05-25 13:30:00'
+        schedule = '2020-05-25 13:30:00',
+        timezone = Sys.timezone()
     )
 
     output$countdown <- renderUI({
         invalidateLater(500)
-        schedule <- as.POSIXct(settings$schedule)
+        schedule <- ymd_hms(settings$schedule, tz = settings$timezone)
         color <- ifelse(schedule > Sys.time(), 'black', 'red')
         remaining <- span(
             round(as.period(abs(schedule - Sys.time()))),
@@ -22,14 +23,14 @@ server <- function(input, output, session) {
             h2(settings$subtitle),
             h3('starts in'),
             h1(tags$b(remaining)),
-            h4(paste('at', settings$schedule, Sys.timezone())),
+            h4(paste('at', settings$schedule, settings$timezone)),
             class = 'center')
     })
 
     ## load settings from URL query params
     observe({
         query <- parseQueryString(session$clientData$url_search)
-        for (v in c('title', 'subtitle', 'schedule')) {
+        for (v in c('title', 'subtitle', 'schedule', 'timezone')) {
             if (!is.null(query[[v]])) {
                 settings[[v]] <- query[[v]]
             }
@@ -39,9 +40,20 @@ server <- function(input, output, session) {
     ## override settings from modal
     observeEvent(input$settings_show, {
         showModal(modalDialog(
-            textInput("title", "Title", value = settings$title),
-            textInput("subtitle", "Subtitle", value = settings$subtitle),
-            airDatepickerInput("schedule", "Time", value = as.POSIXct(settings$schedule), timepicker = TRUE),
+            textInput(
+                'title', 'Title',
+                value = settings$title),
+            textInput(
+                'subtitle', 'Subtitle',
+                value = settings$subtitle),
+            airDatepickerInput(
+                'schedule', 'Time',
+                value = as.POSIXct(settings$schedule),
+                timepicker = TRUE),
+            selectInput(
+                'timezone', 'Timezone',
+                choices = OlsonNames(),
+                selected = settings$timezone),
             footer = tagList(actionButton('settings_update', 'Update'))
         ))
     })
@@ -49,6 +61,7 @@ server <- function(input, output, session) {
         settings$title <- input$title
         settings$subtitle <- input$subtitle
         settings$schedule <- input$schedule
+        settings$timezone <- input$timezone
         removeModal()
     })
 
