@@ -10,15 +10,6 @@ server <- function(input, output, session) {
         schedule = as.POSIXct('2020-05-25 13:30:00')
     )
 
-    observe({
-        query <- parseQueryString(session$clientData$url_search)
-        for (v in c('title', 'subtitle', 'schedule')) {
-            if (!is.null(query[[v]])) {
-                settings$title <- query[[v]]
-            }
-        }
-    })
-
     output$countdown <- renderUI({
         invalidateLater(500)
         color <- ifelse(settings$schedule > Sys.time(), 'black', 'red')
@@ -34,6 +25,17 @@ server <- function(input, output, session) {
             class = 'center')
     })
 
+    ## load settings from URL query params
+    observe({
+        query <- parseQueryString(session$clientData$url_search)
+        for (v in c('title', 'subtitle', 'schedule')) {
+            if (!is.null(query[[v]])) {
+                settings$title <- query[[v]]
+            }
+        }
+    })
+
+    ## override settings from modal
     observeEvent(input$settings_show, {
         showModal(modalDialog(
             textInput("title", "Title", value = settings$title),
