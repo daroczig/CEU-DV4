@@ -36,7 +36,7 @@ This week, we build a countdown timer app, similar to http://count-down-timer.tk
     - cookies
     - using shinyapps.io in the background
 
-1. App skeleton:
+1. App wireframe with a static UI:
 
     <details><summary>ui.R</summary>
 
@@ -45,11 +45,24 @@ This week, we build a countdown timer app, similar to http://count-down-timer.tk
 
     ui <- fluidPage(
         h1('Data Visualization 3'),
-        h2('Data Visualization in Production with Shiny'),
-        h1('0H 0M 0S')
+        h2('Data Visualization in Production with Shiny')
     )
     ```
     </details>
+
+    <details><summary>server.R</summary>
+
+    ```r
+    library(shiny)
+    server <- function(input, output) {
+
+    }
+    ```
+    </details>
+
+2. Move content generation to the backend: f0b53ee0da9a816a44448ab8f170c5ca7d46e2f2
+
+3. Add current time (to be later used as the baseline for the countdown timer): f0b53ee0da9a816a44448ab8f170c5ca7d46e2f2...5dd67247fdf3a53312737057273c31fb1dbe11a8
 
 To be upoaded.
 
