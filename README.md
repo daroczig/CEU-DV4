@@ -249,7 +249,6 @@ Further ideas to improve the app:
 
 #### Deploying Shiny applications
 
-```
 ##### Shiny Server
 
 1. 💪 Install R packages as a system user:
