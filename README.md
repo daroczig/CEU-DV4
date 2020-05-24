@@ -374,7 +374,6 @@ Note, that Shiny Server has some limitations (eg scaling to multiple users, some
         description: Application which demonstrates the basics of a Shiny app
         container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
         container-image: openanalytics/shinyproxy-demo
-        access-groups: [scientists, mathematicians]
     logging:
       file:
         shinyproxy.log
