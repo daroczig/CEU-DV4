@@ -501,11 +501,23 @@ specs:
   groups: users
 ```
 
+#### My subjective "Best Damn Packages for Shiny" list
 
+For the user interface:
 
+- `shinyjs`
+- `shinyWidgets`
+- `DT`
+- `dygraphs`
+- `ggiraph`
 
+For the back-end:
 
+- `logger`
+- `dbr`
+- `botor`
 
+:)
 
 ## Home Assignment
 
