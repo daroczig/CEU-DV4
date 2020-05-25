@@ -547,3 +547,6 @@ Some ideas for data source:
 * `nycflights13` package
 * https://github.com/rfordatascience/tidytuesday/
 * https://www.kaggle.com/datasets
+
+Deadline: June 7, 2020
+
