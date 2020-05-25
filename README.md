@@ -430,6 +430,76 @@ Note, that Shiny Server has some limitations (eg scaling to multiple users, some
 Remaining resources to be uploaded.
 
 
+10. Need to download the Docker image specified in the `application.yml` for the example app
+
+    ```sh
+    sudo docker pull openanalytics/shinyproxy-demo
+    ```
+
+11. Let's build a new Docker image for our application! For this end, we need to define the build instructions in a `Dockerfile` placed in `/home/ceu/apps/countdown/Dockerfile`
+
+    ```sh
+    FROM rocker/shiny
+
+    RUN install2.r shinyWidgets lubridate remotes
+    RUN install installGithub.r dreamRs/particlesjs
+
+    RUN mkdir /app
+    COPY *.R /app/
+
+    CMD ["R", "-e", "shiny::runApp('/app')"]
+    ```
+
+    And then build the Docker image based on the above:
+
+        ```sh
+        sudo docker build -t countdown .
+        ```
+
+    Now we can run a Docker container based on this image on the command-line:
+
+        ```sh
+        sudo docker run --rm -ti countdown
+        ```
+
+12. Update the ShinyProxy config to include the above Dockerized app
+
+    ```sh
+    - id: countdown
+      display-name: Countdown Timer
+      description: Yeah, this is a countdown timer
+      container-image: countdown
+    ```
+
+13. Debug why it's not running?
+
+    ```sh
+    sudo chown shinyproxy:shinyproxy /var/log/shinyproxy.log
+    sudo systemctl restart shinyproxy
+    ```
+
+    Need to update the `Dockerfile` (or config) to expose on the right port:
+
+    ```sh
+    EXPOSE 3838
+    CMD ["R", "-e", "shiny::runApp('/app', port = 3838, host = '0.0.0.0')"]
+    ```
+
+14. Authentication as per https://www.shinyproxy.io/configuration/#simple-authentication
+
+```sh
+...
+authentication: simple
+...
+users:
+- name: ceu
+  password: ceudata
+  group: users
+...
+specs:
+- ...
+  groups: users
+```
 
 
 
