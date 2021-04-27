@@ -5,9 +5,9 @@ library(lubridate)
 server <- function(input, output, session) {
 
     settings <- reactiveValues(
-        title = 'Data Visualization 3',
+        title = 'Data Visualization 4',
         subtitle = 'Data Visualization in Production with Shiny',
-        schedule = '2020-05-25 13:30:00',
+        schedule = '2021-04-28 11:30:00',
         timezone = Sys.timezone()
     )
 
@@ -67,7 +67,7 @@ server <- function(input, output, session) {
 
     ## gdpr
     showModal(modalDialog(
-        p('Click the below button you consent to ...'),
+        p('Click the below button you consent to ... use this fantastic app!'),
         footer = tagList(actionButton('consent', 'OK'))
     ))
     observeEvent(input$consent, {
