@@ -4,9 +4,11 @@ This is the R script/materials repository of the "[Data Visualization 4: Data Vi
 
 * [Syllabus](#syllabus)
 * [Schedule](#schedule)
-   * [Week 1](#week-1)
-   * [Week 2](#week-2)
+   * [Day 1-2](#day-1-2)
+   * [Day 3](#day-3)
+   * [Day 4](#day-4)
 * [Home Assignment](#home-assignment)
+* [Contact](#contacts)
 
 ## Syllabus
 
