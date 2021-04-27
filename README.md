@@ -46,6 +46,11 @@ This week, we build a countdown timer app, similar to http://count-down-timer.tk
 
 Future content to be uploaded later.
 
+## Suggested Reading
+
+* Hadley Wickham (2021): Mastering Shiny. https://mastering-shiny.org/
+* Business Science (2020): The Shiny AWS Book. https://business-science.github.io/shiny-production-with-aws-book/
+
 ## Contact
 
 File a [GitHub ticket](https://github.com/daroczig/CEU-DV3/issues).
