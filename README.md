@@ -51,6 +51,37 @@ Future content to be uploaded later.
 * Hadley Wickham (2021): Mastering Shiny. https://mastering-shiny.org/
 * Business Science (2020): The Shiny AWS Book. https://business-science.github.io/shiny-production-with-aws-book/
 
+## Home Assignment
+
+Create and deploy a Shiny application as described below. You can use any dataset you like. If you have no ideas on what data source(s) to use, check the below ideas. In any question, reach out on Slack or open a GitHub ticket.
+
+For Pass:
+
+* You need to create a Shiny application with `shinydashboard` layout using a sidebar menu
+* Write at least one helper function and put into the `global.R` file to make it accessible for both `ui.R` and `server.R`
+* Add at least 3 input elements using at least 2 different methods (eg dropdown, slider, checkbox)
+* Add at least 3 different UI elements (eg text, table, map, UI, info and valueboxes)
+* Use at least 2 menu items
+* Use `reactive` values
+* The change of the input elements have to change the UI elements showed to the user
+* Deploy the app into shinyapps.io, upload the code into Moodle with a reference to your shinyapps.io application
+
+For Grade:
+
+* Implement the application described in the above steps
+* Add at least 5 different UI elements, including one from htmlwidgets.org
+* Use at least 3 menu items
+* Add Google Analytics tracking to your application
+* Deploy the app via shinyproxy (covered on the second day of the course)
+
+Some ideas for data source:
+
+* `nycflights13` package
+* https://github.com/rfordatascience/tidytuesday/
+* https://www.kaggle.com/datasets
+
+Deadline: May 20, 2021
+
 ## Contact
 
 File a [GitHub ticket](https://github.com/daroczig/CEU-DV3/issues).
