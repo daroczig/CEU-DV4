@@ -245,7 +245,274 @@ Further ideas to improve the app:
 
 ### Day 4
 
-Future content to be uploaded later.
+##### Shiny Server
+
+1. 💪 Install R packages as a system user:
+
+        ## install as a binary when possible
+        sudo apt-get install r-cran-dplyr r-cran-quantmod r-cran-xml r-cran-tidyr r-cran-igraph r-cran-lubridate r-cran-psych r-cran-broom r-cran-yaml r-cran-htmlwidgets r-cran-shiny
+
+        ## install from CRAN when binary is not available
+        sudo R -e "withr::with_libpaths(new = '/usr/local/lib/R/site-library', install.packages(c('highcharter', 'shinyWidgets'), repos='https://cran.rstudio.com/'))"
+
+        ## some R packages are not even on CRAN, so let's install from GitHub
+        sudo Rscript -e "library(devtools);withr::with_libpaths(new = '/usr/local/lib/R/site-library', install_github('dreamRs/particlesjs', upgrade_dependencies = FALSE))"
+
+2. 💪 Install Shiny Server from https://rstudio.com/products/shiny/download-server/ubuntu/:
+
+        sudo apt-get install gdebi-core
+        wget https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-1.5.13.944-amd64.deb
+        sudo gdebi shiny-server-1.5.13.944-amd64.deb
+
+3. 💪 Edit `site_dir` in `shiny-server.conf` to point to the `/home/dv4` folder via
+
+        sudo mcedit /etc/shiny-server/shiny-server.conf
+        sudo systemctl restart shiny-server
+
+4. Visit Shiny Server on port 3838 from your browser
+
+    ![](https://raw.githubusercontent.com/daroczig/CEU-R-prod/2018-2019/images/shiny-server.png)
+
+5. 💪 Always keep logs -- set this in the Shiny Server config & restart service as per https://docs.rstudio.com/shiny-server/#logging-and-analytics:
+
+        preserve_logs true;
+
+    Optionally, redirect all logs to the same file by injecting an environment variable in `/etc/systemd/system/shiny-server.service` by adding this line below the other `Environment=` line:
+
+        Environment="SHINY_LOG_STDERR=1"
+
+6. To keep an eye on logs (test with making a typo in the app on purpose):
+
+        sudo tail -f /var/log/shiny-server.log
+
+7. Add `ui.R` and `server.R` files (along with `global.R` and other stuff in the `www` folder) to directories created in `/home/dv4`
+
+Note, that Shiny Server has some limitations (eg scaling to multiple users, some headers removed by the Node.js wrapper) -- so you might consider either the Pro version, other RStudio products or eg the below-mentioned Shiny app manager daemon for using Shiny in production at scale.
+
+**The above steps can be covered by starting a new `t3.micro` instance using the `dv4` AMI and `dv4` security group.**
+
+##### Shinyproxy.io
+
+0. Get familiar with Docker:
+
+    - ["Dockerizing R scripts"](https://github.com/daroczig/CEU-R-prod#dockerizing-r-scripts) at the "Data Engineering 4: Using R in Production" class
+    - [rOpenSci Docker tutorial](https://ropenscilabs.github.io/r-docker-tutorial)
+
+1. 💪 Install Docker
+
+    ```sh
+    ## get dependencies
+    sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+
+    ## import Docker's official GPG key
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+    ## add the external, official Docker apt repo for most recent release
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+    ## download list of available packages and install Docker
+    sudo apt update
+    sudo apt install -y docker-ce docker-ce-cli containerd.io
+    ```
+
+2. Test Docker
+
+    ```sh
+    sudo docker run --rm hello-world
+    sudo docker image rm hello-world
+    ```
+
+3. 💪 ShinyProxy needs to connect to the Docker daemon, so let's open up a port for that
+
+    * check `/etc/systemd/system/docker.service.d/override.conf` eg via `sudo mcedit` and paste the below content if not already there
+
+        ```sh
+        [Service]
+        ExecStart=
+        ExecStart=/usr/bin/dockerd -H unix:// -D -H tcp://127.0.0.1:2375
+        ```
+
+    * restart Docker
+
+        ```sh
+        sudo systemctl daemon-reload
+        sudo systemctl restart docker
+        ```
+
+4. 💪 Make sure Java is installed:
+
+    ```sh
+    sudo apt install -y openjdk-8-jdk-headless
+    ```
+
+5. 💪 Install ShinyProxy
+
+    ```sh
+    wget -O /tmp/shinyproxy.deb https://www.shinyproxy.io/downloads/shinyproxy_2.5.0_amd64.deb
+    sudo dpkg -i /tmp/shinyproxy.deb
+    ```
+
+6. 💪 Configure ShinyProxy at `/etc/shinyproxy/application.yml`
+
+    ```sh
+    proxy:
+      title: CEU Business Analytics Shiny Proxy
+      logo-url: https://www.ceu.edu/sites/default/files/media/user-5/ceulogo_0_1.jpg
+      landing-page: /
+      heartbeat-rate: 10000
+      heartbeat-timeout: 60000
+      port: 8080
+      docker:
+        cert-path: /home/none
+        url: http://localhost:2375
+        port-range-start: 20000
+      specs:
+      - id: 01_hello
+        display-name: Hello Application
+        description: Application which demonstrates the basics of a Shiny app
+        container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
+        container-image: openanalytics/shinyproxy-demo
+    logging:
+      file:
+        shinyproxy.log
+    ```
+
+    Optionally make that editable by the `dv4` user for easier access from RStudio for the time being:
+
+    ```sh
+    sudo chown dv4:dv4 /etc/shinyproxy/application.yml
+    ```
+
+7. 💪 Restart ShinyProxy
+
+    ```sh
+    sudo systemctl restart shinyproxy
+    ```
+
+8. 💪 Set up yet-another-proxy so that the apps can be accessed over the standard HTTP/80 port
+
+    1. Install `nginx`
+
+        ```sh
+        sudo apt install -y nginx
+        ```
+
+    2. Then we need to edit the main site's configuration at `/etc/nginx/sites-enabled/default`
+
+        ```
+        server {
+            listen 80;
+            location / {
+                proxy_pass http://127.0.0.1:8080/;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_read_timeout 600s;
+                proxy_redirect off;
+                proxy_set_header Host $http_host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Protocol $scheme;
+            }
+        }
+        ```
+
+    3. Restart nginx
+
+        ```sh
+        sudo systemctl restart nginx
+        ```
+
+9. Visit your EC2 box's IP address at http://your.ip.address
+
+10. Need to download the Docker image specified in the `application.yml` for the example app
+
+    ```sh
+    sudo docker pull openanalytics/shinyproxy-demo
+    ```
+
+11. Let's build a new Docker image for our application! For this end, we need to define the build instructions in a `Dockerfile` placed in `/home/dv4/countdown/Dockerfile`
+
+    ```sh
+    FROM rocker/shiny
+
+    RUN install2.r shinyWidgets lubridate remotes
+    RUN installGithub.r -u FALSE dreamRs/particlesjs
+
+    RUN mkdir /app
+    COPY *.R /app/
+
+    CMD ["R", "-e", "shiny::runApp('/app')"]
+    ```
+
+    And then build the Docker image based on the above:
+
+        ```sh
+        sudo docker build -t countdown .
+        ```
+
+    Now we can run a Docker container based on this image on the command-line:
+
+        ```sh
+        sudo docker run --rm -ti countdown
+        ```
+
+12. Update the ShinyProxy config to include the above Dockerized app
+
+    ```sh
+    - id: countdown
+      display-name: Countdown Timer
+      description: Yeah, this is a countdown timer
+      container-image: countdown
+    ```
+
+13. Debug why it's not running?
+
+    ```sh
+    sudo chown shinyproxy:shinyproxy /var/log/shinyproxy.log
+    sudo systemctl restart shinyproxy
+    ```
+
+    Need to update the `Dockerfile` (or config) to expose on the right port:
+
+    ```sh
+    EXPOSE 3838
+    CMD ["R", "-e", "shiny::runApp('/app', port = 3838, host = '0.0.0.0')"]
+    ```
+
+14. Authentication as per https://www.shinyproxy.io/configuration/#simple-authentication
+
+```sh
+...
+authentication: simple
+...
+users:
+- name: ceu
+  password: ceudata
+  group: users
+...
+specs:
+- ...
+  groups: users
+```
+
+#### My subjective "Best Damn Packages for Shiny" list
+
+For the user interface:
+
+- `shinyjs`
+- `shinyWidgets`
+- `DT`
+- `dygraphs`
+- `ggiraph`
+
+For the back-end:
+
+- `logger`
+- `dbr`
+- `botor`
+
+:)
 
 ## Suggested Reading
 
