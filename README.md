@@ -18,11 +18,11 @@ Please find in the `syllabus` folder of this repository.
 
 2 x 2 x 150 mins between on April 20 and May 2, 2022.
 
-### Day 1-2
+### Day 1
 
 Introduction to Shiny by Mihaly Orsos: https://github.com/misrori/DV4
 
-### Day 3
+### Day 2
 
 Overview on the previous week's materials by Mihaly Orsos:
 
