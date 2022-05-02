@@ -506,7 +506,13 @@ Note, that Shiny Server has some limitations (eg scaling to multiple users, some
     CMD ["R", "-e", "shiny::runApp('/app', port = 3838, host = '0.0.0.0')"]
     ```
 
-14. Authentication as per https://www.shinyproxy.io/documentation/configuration/#simple-authentication
+14. Don't forget to also add the `www` folder with the required CSS!
+
+    ```sh
+    COPY www/app.css /app/www/
+    ```
+
+15. Authentication as per https://www.shinyproxy.io/documentation/configuration/#simple-authentication
 
 ```sh
 ...
