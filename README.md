@@ -541,6 +541,35 @@ For the back-end:
 
 :)
 
+## Home Assignment
+
+Create and deploy a Shiny application as described below. You can use any dataset you like. If you have no preferred data source(s) to use, check the below ideas. In case of any question, reach out on Slack or open a GitHub ticket.
+
+Minimal project (for up to "B" grade):
+
+* You need to create a Shiny application with `shinydashboard` layout using a sidebar menu
+* Write at least one helper function and put into the `global.R` file to make it accessible for both `ui.R` and `server.R`
+* Add at least 3 input elements using at least 2 different methods (eg dropdown, slider, checkbox)
+* Add at least 3 different UI elements (eg text, table, map, UI, info and valueboxes)
+* Use at least 2 menu items
+* Use `reactive` values
+* The change of the input elements have to change the UI elements showed to the user
+* Deploy the app into shinyapps.io, upload the code into Moodle with a reference to your shinyapps.io application
+
+Suggested project (for up to "B" grade):
+
+* Implement the application described in the above steps
+* Add at least 5 (instead of 3) different UI elements, including at least one one from htmlwidgets.org
+* Deploy the app via shinyproxy (covered in the second day of the course)
+
+Some ideas for data source:
+
+* `nycflights13` package
+* https://github.com/rfordatascience/tidytuesday/
+* https://www.kaggle.com/datasets
+
+Deadline: May 23, 2022
+
 
 
 ## Suggested Reading
