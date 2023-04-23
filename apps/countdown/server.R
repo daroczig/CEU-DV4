@@ -1,5 +1,9 @@
 library(shiny)
 
-server <- function(input, output) {
+title <- 'Data Visualization 4'
+subtitle <- 'Data Visualization in Production with Shiny'
 
+server <- function(input, output) {
+    output$title <- renderText(title)
+    output$subtitle <- renderText(subtitle)
 }
