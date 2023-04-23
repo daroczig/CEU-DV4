@@ -13,6 +13,12 @@ server <- function(input, output) {
         ## as there's no external dependency triggering changes here (e.g. an input change)
         ## that would automatically update this object to reactive
         invalidateLater(250)
-        as.character(round(as.period(schedule - Sys.time())))
+        color <- ifelse(schedule > Sys.time(), 'black', 'red')
+        as.character(span(
+            round(as.period(abs(schedule - Sys.time()))),
+            style = paste('color', color, sep = ':')))
+    })
+    output$start <- renderText({
+        paste('at', schedule, Sys.timezone())
     })
 }
