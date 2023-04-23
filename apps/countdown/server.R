@@ -1,7 +1,9 @@
 library(shiny)
+library(lubridate)
 
 title <- 'Data Visualization 4'
 subtitle <- 'Data Visualization in Production with Shiny'
+schedule <- as.POSIXct('2023-04-24 11:30:00')
 
 server <- function(input, output) {
     output$title <- renderText(title)
@@ -11,6 +13,6 @@ server <- function(input, output) {
         ## as there's no external dependency triggering changes here (e.g. an input change)
         ## that would automatically update this object to reactive
         invalidateLater(250)
-        as.character(Sys.time())
+        as.character(round(as.period(schedule - Sys.time())))
     })
 }
