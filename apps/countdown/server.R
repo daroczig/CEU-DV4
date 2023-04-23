@@ -1,24 +1,45 @@
 library(shiny)
 library(lubridate)
 
-title <- 'Data Visualization 4'
-subtitle <- 'Data Visualization in Production with Shiny'
-schedule <- as.POSIXct('2023-04-24 11:30:00')
-
 server <- function(input, output) {
-    output$title <- renderText(title)
-    output$subtitle <- renderText(subtitle)
+
+    settings <- reactiveValues(
+        title = 'Data Visualization 4',
+        subtitle = 'Data Visualization in Production with Shiny',
+        schedule = as.POSIXct('2023-04-24 11:30:00')
+    )
+
+    output$title <- renderText(settings$title)
+    output$subtitle <- renderText(settings$subtitle)
     output$countdown <- renderText({
         ## need to reset the cached/reactive value so that it gets updated from time to time,
         ## as there's no external dependency triggering changes here (e.g. an input change)
         ## that would automatically update this object to reactive
         invalidateLater(250)
-        color <- ifelse(schedule > Sys.time(), 'black', 'red')
+        color <- ifelse(settings$schedule > Sys.time(), 'black', 'red')
         as.character(span(
-            round(as.period(abs(schedule - Sys.time()))),
+            round(as.period(abs(settings$schedule - Sys.time()))),
             style = paste('color', color, sep = ':')))
     })
     output$start <- renderText({
-        paste('at', schedule, Sys.timezone())
+        paste('at', settings$schedule, Sys.timezone())
     })
+
+    observeEvent(input$settings_show, {
+        showModal(
+            modalDialog(
+                textInput("title", "Title", value = settings$title),
+                textInput("subtitle", "Subtitle", value = settings$subtitle),
+                textInput("schedule", "Time", value = settings$schedule),
+                footer = tagList(actionButton('settings_update', 'Update'))
+            )
+        )
+    })
+    observeEvent(input$settings_update, {
+        settings$title <- input$title
+        settings$subtitle <- input$subtitle
+        settings$schedule <- as.POSIXct(input$schedule)
+        removeModal()
+    })
+
 }

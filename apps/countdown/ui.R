@@ -7,6 +7,7 @@ ui <- basicPage(
         tags$link(rel = "stylesheet", type = "text/css", href = "app.css")
     ),
     particles(),
+    actionButton('settings_show', 'Settings'),
 
     div(
         h1(uiOutput('title')),
