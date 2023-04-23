@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyWidgets)
 library(lubridate)
 
 server <- function(input, output) {
@@ -30,7 +31,7 @@ server <- function(input, output) {
             modalDialog(
                 textInput("title", "Title", value = settings$title),
                 textInput("subtitle", "Subtitle", value = settings$subtitle),
-                textInput("schedule", "Time", value = settings$schedule),
+                airDatepickerInput("schedule", "Time", value = settings$schedule, timepicker = TRUE),
                 footer = tagList(actionButton('settings_update', 'Update'))
             )
         )
