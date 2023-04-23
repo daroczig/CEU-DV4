@@ -59,4 +59,22 @@ server <- function(input, output, session) {
         }
     })
 
+    ## gdpr
+    showModal(modalDialog(
+        p('Click the below button you consent to ...'),
+        footer = tagList(actionButton('consent', 'OK'))
+    ))
+    observeEvent(input$consent, {
+        output$app <- renderUI({
+            list(
+                particles(),
+                actionBttn('settings_show', 'Settings',
+                           icon = icon('gear'),
+                           style = 'material-circle'),
+                uiOutput('countdown')
+            )
+        })
+        removeModal()
+    })
+
 }
