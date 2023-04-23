@@ -8,3 +8,10 @@
     padding: 25px 30px;
     border-radius: 25px;
 }
+
+#settings_show {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    color: black;
+}

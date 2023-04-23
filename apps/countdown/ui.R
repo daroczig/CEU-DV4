@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyWidgets)
 library(particlesjs)
 
 ui <- basicPage(
@@ -7,7 +8,7 @@ ui <- basicPage(
         tags$link(rel = "stylesheet", type = "text/css", href = "app.css")
     ),
     particles(),
-    actionButton('settings_show', 'Settings'),
+    actionBttn('settings_show', 'Settings', icon = icon('gear'), style = 'material-circle'),
 
     div(
         h1(uiOutput('title')),
