@@ -10,20 +10,19 @@ server <- function(input, output, session) {
         schedule = as.POSIXct('2023-04-24 11:30:00')
     )
 
-    output$title <- renderText(settings$title)
-    output$subtitle <- renderText(settings$subtitle)
-    output$countdown <- renderText({
-        ## need to reset the cached/reactive value so that it gets updated from time to time,
-        ## as there's no external dependency triggering changes here (e.g. an input change)
-        ## that would automatically update this object to reactive
+    output$countdown <- renderUI({
         invalidateLater(250)
         color <- ifelse(settings$schedule > Sys.time(), 'black', 'red')
-        as.character(span(
+        remaining <- span(
             round(as.period(abs(settings$schedule - Sys.time()))),
-            style = paste('color', color, sep = ':')))
-    })
-    output$start <- renderText({
-        paste('at', settings$schedule, Sys.timezone())
+            style = paste('color', color, sep = ':'))
+        div(
+            h1(settings$title),
+            h2(settings$subtitle),
+            h3('starts in'),
+            h1(tags$b(remaining)),
+            h4(paste('at', settings$schedule, Sys.timezone())),
+            class = 'center')
     })
 
     observeEvent(input$settings_show, {

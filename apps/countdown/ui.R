@@ -10,12 +10,6 @@ ui <- basicPage(
     particles(),
     actionBttn('settings_show', 'Settings', icon = icon('gear'), style = 'material-circle'),
 
-    div(
-        h1(uiOutput('title')),
-        h2(uiOutput('subtitle')),
-        h3('starts in'),
-        h1(uiOutput('countdown')),
-        h4(uiOutput('start')),
-        class = 'center')
+    uiOutput('countdown')
 
 )
