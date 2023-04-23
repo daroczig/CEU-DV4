@@ -2,7 +2,7 @@ library(shiny)
 library(shinyWidgets)
 library(lubridate)
 
-server <- function(input, output) {
+server <- function(input, output, session) {
 
     settings <- reactiveValues(
         title = 'Data Visualization 4',
@@ -42,5 +42,17 @@ server <- function(input, output) {
         settings$schedule <- as.POSIXct(input$schedule)
         removeModal()
     })
+
+    observe({
+        query <- parseQueryString(session$clientData$url_search)
+        for (v in c('title', 'subtitle', 'schedule')) {
+            if (!is.null(query[[v]])) {
+                if (v == 'schedule') {
+                    settings[[v]] <- as.POSIXct(query[[v]])
+                } else {
+                    settings[[v]] <- query[[v]]
+                }
+            }
+        })
 
 }
