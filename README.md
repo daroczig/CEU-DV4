@@ -234,6 +234,12 @@ Further ideas to improve the app:
 - configure theme (colors, layout, background etc)
 - ads!!!
 
+Questions & Answers:
+
+* There's an icon next to the datetime picker not doing anything. What's that for?
+
+> It's an action button that can trigger functions on the server side. If not needed, hide with setting the `addon` parameter of `airDatepickerInput` to `none`.
+
 ## Suggested Reading
 
 * Hadley Wickham (2021): Mastering Shiny. https://mastering-shiny.org/
