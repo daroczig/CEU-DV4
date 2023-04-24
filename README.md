@@ -244,6 +244,10 @@ Questions & Answers:
 
 > By default, the rendered table doesn't have a scrollbar and so thus might be wider than preferred. To make sure it fits in the provided horizontal space, pass `options = list(scrollX = TRUE)` to `DT::renderDataTable`.
 
+* How to use custom colors in an `infoBox`?
+
+> You cannot :( There's a related GH ticket at https://github.com/rstudio/shinydashboard/issues/366
+
 ## Home Assignments
 
 ### Homework 1
