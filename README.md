@@ -255,7 +255,6 @@ Questions & Answers:
 Create a Shiny application as described below. You can use any dataset you like. If you have no preferred data source(s) to use, check the below ideas. In case of any question, reach out on Slack or open a GitHub ticket.
 
 * You need to create a Shiny application with `shinydashboard` layout using a sidebar menu
-* Write at least one helper function and put into the `global.R` file to make it accessible for both `ui.R` and `server.R`
 * Add at least 3 input elements using at least 2 different methods (eg dropdown, slider, checkbox)
 * Add at least 3 different UI elements (eg text, table, map, UI, info and valueboxes)
 * Use `reactive` values
