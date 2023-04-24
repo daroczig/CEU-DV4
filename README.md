@@ -240,6 +240,10 @@ Questions & Answers:
 
 > It's an action button that can trigger functions on the server side. If not needed, hide with setting the `addon` parameter of `airDatepickerInput` to `none`.
 
+* The `DT` table is overflowing the provided width of the parent `column`. Why?
+
+> By default, the rendered table doesn't have a scrollbar and so thus might be wider than preferred. To make sure it fits in the provided horizontal space, pass `options = list(scrollX = TRUE)` to `DT::renderDataTable`.
+
 ## Home Assignments
 
 ### Homework 1
