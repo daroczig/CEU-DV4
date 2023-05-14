@@ -48,7 +48,8 @@ Provide the R code using ggplot2 to visualize:"
 function(input, output, session) {
   
   question <- reactive({
-    validate(need(input$question != '', ''))
+    ## make sure we are using validate from shiny and not jsonlite
+    shiny::validate(need(input$question != '', ''))
     paste(prompt, input$question)
   })
   
