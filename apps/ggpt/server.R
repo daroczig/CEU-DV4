@@ -3,7 +3,7 @@ library(shinycssloaders)
 
 library(markdown)
 library(chatgpt)
-Sys.setenv(OPENAI_API_KEY = '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')
+Sys.setenv(OPENAI_API_KEY = '***')
 
 ## chatgpt often forgets to load this pkg
 library(nycflights13)
