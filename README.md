@@ -5,6 +5,9 @@ This is the R script/materials repository of the "[Data Visualization 4: Data Vi
 * [Syllabus](#syllabus)
 * [Schedule](#schedule)
    * [Day 1](#day-1)
+   * [Day 2](#day-2)
+   * [Day 3](#day-3)
+* [Home Assignment](#home-assignment)
 * [Contact](#contacts)
 
 ## Syllabus
@@ -247,6 +250,23 @@ Questions & Answers:
 * How to use custom colors in an `infoBox`?
 
 > You cannot :( There's a related GH ticket at https://github.com/rstudio/shinydashboard/issues/366
+
+### Widgets
+
+Mihaly Orsos shared materials at https://github.com/misrori/DV4-2023
+
+## Day 2
+
+Mihaly Orsos shared materials at https://github.com/misrori/DV4-2023
+
+## Day 3
+
+### gGPT
+
+1. Create an `apps` folder in your home directory, then start a new Shiny web app there (e.g. `gGPT`).
+2. Write an app that takes freetext input to analyze the `nycflights13` dataset by generating a relevant `ggplot2`, e.g. as seen on the below screenshot:
+
+    ![2023-05-14_17-51](https://github.com/daroczig/CEU-DV4/assets/495736/e639db61-7588-405d-9790-858edd395f87)
 
 ## Home Assignments
 
