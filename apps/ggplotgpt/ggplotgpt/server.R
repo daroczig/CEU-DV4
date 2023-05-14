@@ -48,7 +48,7 @@ Provide the R code using ggplot2 to visualize:"
 function(input, output, session) {
   
   question <- reactive({
-    validate(need(input$question != '', 'No question asked?'))
+    validate(need(input$question != '', ''))
     paste(prompt, input$question)
   })
   
@@ -56,17 +56,13 @@ function(input, output, session) {
     
     reset_chat_session()
     res <- ask_chatgpt(question())
-    blocker$code <- Sys.time()
 
     ## drop backtick fence around R code (cannot get ChatGPT do it)
     gsub('(^```\\{?[rR]?\\}?)|(```$)','', res)
     
   })
-  
+
   output$code <- renderText(code())
   output$plot <- renderPlot(eval(parse(text = code())))
-  output$explanation <- renderUI({
-    HTML(markdownToHTML(text = explain_code(code()), fragment.only = TRUE))
-  })
-  
+
 }
