@@ -697,14 +697,29 @@ Some ideas for data source:
 
 Deadline: May 8, 2023
 
+### Final project
+
+Update your previous Shiny application as described below. If you have no preferred data source(s) to use, check the below ideas. In case of any question, reach out on Slack or open a GitHub ticket.
+
+Minimal project (for up to "B" grade):
+
+* Use at least 2 menu items
+* Write at least one helper function and put into the `global.R` file to make it accessible for both `ui.R` and `server.R`
+* The change of the input elements have to change the UI elements showed to the user
+* Deploy the app into shinyapps.io, upload the code into Moodle with a reference to your shinyapps.io application
+
+Suggested project (for up to "B" grade):
+
+* Implement the application described in the above steps
+* Add at least 5 (instead of 3) different UI elements, including at least one one from htmlwidgets.org
+* Deploy the app via shinyproxy (covered in the second day of the course)
+
+Deadline: May 22, 2023
+
 ## Suggested Reading
 
 * Hadley Wickham (2021): Mastering Shiny. https://mastering-shiny.org/
 * Business Science (2020): The Shiny AWS Book. https://business-science.github.io/shiny-production-with-aws-book/
-
-## Home Assignment
-
-To be uploaded.
 
 ## Contact
 
