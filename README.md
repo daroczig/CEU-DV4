@@ -628,9 +628,9 @@ Mihaly Orsos shared materials at https://github.com/misrori/DV4-2023
 
     And then build the Docker image based on the above:
 
-        ```sh
-        sudo docker build -t ggpt .
-        ```
+    ```sh
+    sudo docker build -t ggpt .
+    ```
 
     Now we can run a Docker container based on this image on the command-line:
 
@@ -638,7 +638,7 @@ Mihaly Orsos shared materials at https://github.com/misrori/DV4-2023
         sudo docker run --rm -ti ggpt
         ```
 
-12. Update the ShinyProxy config to include the above Dockerized app
+12. Update the ShinyProxy config to include the above Dockerized app at `/etc/shinyproxy/application.yml`
 
     ```sh
     - id: ggpt
