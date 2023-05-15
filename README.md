@@ -454,6 +454,230 @@ Mihaly Orsos shared materials at https://github.com/misrori/DV4-2023
 
 **The above steps can be covered by starting a new `t3.small` instance using the `dv4` AMI and `dv4` security group.** Don't forget to set the Owner and Class tags!
 
+### Shinyproxy.io
+
+0. Get familiar with Docker:
+
+    - ["Dockerizing R scripts"](https://github.com/daroczig/CEU-R-prod#r-api-containers) at the "Data Engineering 4: Using R in Production" class
+    - [rOpenSci Docker tutorial](https://ropenscilabs.github.io/r-docker-tutorial)
+
+1. 💪 Install Docker
+
+    ```sh
+    ## get dependencies
+    sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+
+    ## import Docker's official GPG key
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+    ## add the external, official Docker apt repo for most recent release
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+    ## download list of available packages and install Docker
+    sudo apt update
+    sudo apt install -y docker-ce docker-ce-cli containerd.io
+    ```
+
+2. Test Docker
+
+    ```sh
+    sudo docker run --rm hello-world
+    sudo docker image rm hello-world
+    ```
+
+3. 💪 ShinyProxy needs to connect to the Docker daemon, so let's open up a port for that
+
+    * check `sudo systemctl edit docker` and paste the below content if not already there (hit Ctrl-x to exit and say "Y" to save):
+
+        ```sh
+        [Service]
+        ExecStart=
+        ExecStart=/usr/bin/dockerd -H unix:// -D -H tcp://127.0.0.1:2375
+        ```
+
+    * restart Docker
+
+        ```sh
+        sudo systemctl daemon-reload
+        sudo systemctl restart docker
+        ```
+
+4. 💪 Make sure Java is installed:
+
+    ```sh
+    sudo apt install -y openjdk-8-jdk-headless
+    ```
+
+5. 💪 Install ShinyProxy
+
+    ```sh
+    wget -O /tmp/shinyproxy.deb https://www.shinyproxy.io/downloads/shinyproxy_2.6.1_amd64.deb
+    sudo dpkg -i /tmp/shinyproxy.deb
+    ```
+
+6. 💪 Configure ShinyProxy at `/etc/shinyproxy/application.yml`
+
+    ```sh
+    proxy:
+      title: CEU Business Analytics Shiny Proxy
+      logo-url: https://www.ceu.edu/sites/default/files/media/user-5/ceulogo_0_1.jpg
+      landing-page: /
+      heartbeat-rate: 10000
+      heartbeat-timeout: 60000
+      port: 8000
+      docker:
+        cert-path: /home/none
+        url: http://localhost:2375
+        port-range-start: 20000
+      specs:
+      - id: 01_hello
+        display-name: Hello Application
+        description: Application which demonstrates the basics of a Shiny app
+        container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
+        container-image: openanalytics/shinyproxy-demo
+    logging:
+      file:
+        /var/log/shinyproxy.log
+    ```
+
+    Optionally make that editable by the `ceu` user for easier access from RStudio for the time being:
+
+    ```sh
+    sudo chown ceu:ceu /etc/shinyproxy/application.yml
+    ```
+
+7. 💪 Restart ShinyProxy
+
+    ```sh
+    sudo systemctl restart shinyproxy
+    ```
+
+8. 💪 Set up yet-another-proxy so that the apps can be accessed over the standard HTTP/80 port
+
+    1. Install `nginx`
+
+        ```sh
+        sudo apt install -y nginx
+        ```
+
+    2. Then we need to edit the main site's configuration at `/etc/nginx/sites-enabled/default`
+
+        ```
+        server {
+            listen 80;
+            location / {
+                proxy_pass http://127.0.0.1:8000/;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_read_timeout 600s;
+                proxy_redirect off;
+                proxy_set_header Host $http_host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Protocol $scheme;
+            }
+        }
+        ```
+
+    3. Restart nginx
+
+        ```sh
+        sudo systemctl restart nginx
+        ```
+
+    4. Note that if you want to deploy under a specific path instead of the root path, you need to set `server.servlet.context-path` in the Shinyproxy configuration's top level, then update the above Nginx config as well:
+
+        ```
+        location /shinyproxy/ {
+            proxy_pass http://127.0.0.1:8000;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_read_timeout 600s;
+            proxy_redirect off;
+            proxy_set_header Host $http_host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Protocol $scheme;
+        }
+        ```
+
+9. Visit your EC2 box's IP address at http://your.ip.address
+
+10. Need to download the Docker image specified in the `application.yml` for the example app
+
+    ```sh
+    sudo docker pull openanalytics/shinyproxy-demo
+    sudo image rm openanalytics/shinyproxy-demo
+    ```
+
+11. Let's build a new Docker image for our application! For this end, we need to define the build instructions in a `Dockerfile` placed in `/home/ceu/countdown/Dockerfile`
+
+    ```sh
+    FROM rocker/shiny
+
+    RUN install2.r chatgpt nycflights13 dplyr ggplot2 remotesc
+    RUN installGithub.r -u FALSE daattali/shinycssloaders
+
+    RUN mkdir /app
+    COPY *.R /app/
+
+    CMD ["R", "-e", "shiny::runApp('/app')"]
+    ```
+
+    And then build the Docker image based on the above:
+
+        ```sh
+        sudo docker build -t ggpt .
+        ```
+
+    Now we can run a Docker container based on this image on the command-line:
+
+        ```sh
+        sudo docker run --rm -ti ggpt
+        ```
+
+12. Update the ShinyProxy config to include the above Dockerized app
+
+    ```sh
+    - id: ggpt
+      display-name: gGPT
+      description: Use ChatGPR to generate R code for dataviz on nyscflights13
+      container-image: ggpt
+    ```
+
+13. Debug why it's not running?
+
+    ```sh
+    sudo chown shinyproxy:shinyproxy /var/log/shinyproxy.log
+    sudo systemctl restart shinyproxy
+    ```
+
+    Need to update the `Dockerfile` (or config) to expose on the right port:
+
+    ```sh
+    EXPOSE 3838
+    CMD ["R", "-e", "shiny::runApp('/app', port = 3838, host = '0.0.0.0')"]
+    ```
+
+14. Authentication as per https://www.shinyproxy.io/documentation/configuration/#simple-authentication
+
+```sh
+...
+proxy:
+  authentication: simple
+  ...
+  users:
+  - name: ceu
+    password: ceudata
+    group: users
+  ...
+  specs:
+  - ...
+    groups: users
+```
+
 ## Home Assignments
 
 ### Homework 1
