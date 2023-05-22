@@ -651,6 +651,8 @@ Mihaly Orsos shared materials at https://github.com/misrori/DV4-2023
       container-image: ggpt
     ```
 
+    <a name="debug_shinyproxy"></a>
+
 13. Debug why it's not running?
 
     ```sh
