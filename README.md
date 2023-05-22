@@ -540,11 +540,14 @@ Mihaly Orsos shared materials at https://github.com/misrori/DV4-2023
         /var/log/shinyproxy.log
     ```
 
-    Optionally make that editable by the `ceu` user for easier access from RStudio for the time being:
+    Optionally make that editable by your user for easier access from RStudio for the time being:
 
     ```sh
-    sudo chown ceu:ceu /etc/shinyproxy/application.yml
+    export USERNAME=`whoami`
+    sudo chown $USERNAME:$USERNAME /etc/shinyproxy/application.yml
     ```
+
+    Then you should be able to edit `/etc/shinyproxy/application.yml` right from RStudio by clicking Open file and entering the full path.
 
 7. 💪 Restart ShinyProxy
 
