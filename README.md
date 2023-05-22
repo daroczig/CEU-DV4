@@ -525,6 +525,7 @@ Mihaly Orsos shared materials at https://github.com/misrori/DV4-2023
       heartbeat-rate: 10000
       heartbeat-timeout: 60000
       port: 8000
+      container-log-path: /tmp
       docker:
         cert-path: /home/none
         url: http://localhost:2375
@@ -540,7 +541,7 @@ Mihaly Orsos shared materials at https://github.com/misrori/DV4-2023
         /var/log/shinyproxy.log
     ```
 
-    Optionally make that editable by your user for easier access from RStudio for the time being:
+    Optionally make that file editable by your user for easier access from RStudio for the time being:
 
     ```sh
     export USERNAME=`whoami`
@@ -663,6 +664,8 @@ Mihaly Orsos shared materials at https://github.com/misrori/DV4-2023
     EXPOSE 3838
     CMD ["R", "-e", "shiny::runApp('/app', port = 3838, host = '0.0.0.0')"]
     ```
+
+    To see the container-level logs, note that we have configured `container-log-path` to point to `/tmp` in the `application.yml` file, so a new file will be generated in `/tmp` for all new Docker container. To see the list of file, run e.g. `ls -latr /tmp`, which will list the files ordered by file creation timestamp. The most recent file includes the logs of your most recent Docker container started in Shinyproxy, so you can look at that file via `cat /tmp/{filename}` or run `tail -f /tmp/{filename}` to stream the content in real-time.
 
 14. Authentication as per https://www.shinyproxy.io/documentation/configuration/#simple-authentication
 
